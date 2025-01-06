@@ -3,7 +3,7 @@ const { join } = require('path');
 
 module.exports = {
   output: {
-    path: join(__dirname, '../../dist/apps/VirtuPerks'),
+    path: join(__dirname, '../../dist/apps/virtuperks-api'),
   },
   plugins: [
     new NxAppWebpackPlugin({

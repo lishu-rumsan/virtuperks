@@ -3,10 +3,23 @@
 # compiled output
 dist
 tmp
-out-tsc
+/out-tsc
+play
+.nx
+*_tmp*
+/.log
 
 # dependencies
 node_modules
+
+# env
+.env
+.env.*
+!.env.example
+.npmrc
+
+#npmrc
+.npmrc
 
 # IDEs and editors
 /.idea
@@ -39,8 +52,14 @@ testem.log
 Thumbs.db
 
 .nx/cache
-.nx/workspace-data
 
-# Next.js
-.next
-out
+/config/
+# Docker Compose
+docker-compose-*.yaml
+
+# Migration File
+*_temp
+
+
+docker-compose-files/
+rumsan-finance-app-*.json

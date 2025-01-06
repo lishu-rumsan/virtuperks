@@ -1,7 +1,7 @@
 {
-  "name": "VirtuPerks",
+  "name": "virtuperks-api",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "apps/VirtuPerks/src",
+  "sourceRoot": "apps/virtuperks-api/src",
   "projectType": "application",
   "tags": [],
   "targets": {
@@ -22,15 +22,15 @@
       "defaultConfiguration": "development",
       "dependsOn": ["build"],
       "options": {
-        "buildTarget": "VirtuPerks:build",
+        "buildTarget": "virtuperks-api:build",
         "runBuildTargetDependencies": false
       },
       "configurations": {
         "development": {
-          "buildTarget": "VirtuPerks:build:development"
+          "buildTarget": "virtuperks-api:build:development"
         },
         "production": {
-          "buildTarget": "VirtuPerks:build:production"
+          "buildTarget": "virtuperks-api:build:production"
         }
       }
     },
