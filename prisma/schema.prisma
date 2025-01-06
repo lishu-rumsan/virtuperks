@@ -1,0 +1,203 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model UserDetails {
+  cuid      String    @unique
+  name      String?
+  userType  UserType?
+  managerId String?
+  extras    Json?     @db.JsonB()
+
+  Manager User? @relation("Manager", fields: [cuid], references: [cuid], map: "UserDetails_Manager_fkey")
+  User    User  @relation("UserDetails", fields: [cuid], references: [cuid])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  createdBy String?
+  updatedBy String?
+
+  @@map("tbl_users_details")
+}
+
+// ++++++++++++++++++ START: @rumsan/user - User +++++++++++++++++++++++++++++++
+
+// ===================User Model==================
+model User {
+  id      Int          @id @default(autoincrement())
+  cuid    String       @unique @default(cuid())
+  gender  Gender       @default(UNKNOWN)
+  email   String?
+  phone   String?
+  wallet  String?
+  notes   String?      @db.Text()
+  details UserDetails? @relation("UserDetails")
+
+  Auths     Auth[]
+  UserRoles UserRole[]
+
+  ManagedUsers UserDetails[] @relation("Manager")
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt()
+  deletedAt DateTime?
+  createdBy String?
+  updatedBy String?
+
+  @@map("tbl_users")
+}
+
+enum Gender {
+  MALE
+  FEMALE
+  OTHER
+  UNKNOWN
+}
+
+// ++++++++++++++++++ END: @rumsan/user - User +++++++++++++++++++++++++++++++
+// ++++++++++++++++++ START: @rumsan/user - Role/Auth ++++++++++++++++++++++++
+
+// ===================Role Model==================
+model Role {
+  cuid     String  @id @unique @default(cuid())
+  name     String  @unique @db.VarChar()
+  isSystem Boolean @default(false)
+
+  Permissions Permission[]
+  UserRoles   UserRole[]
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt()
+  createdBy Int?
+  updatedBy Int?
+
+  @@map("tbl_auth_roles")
+}
+
+// ===================Permission Model==================
+model Permission {
+  cuid       String  @id @unique @default(cuid())
+  roleId     String
+  action     String  @db.VarChar()
+  subject    String  @db.VarChar()
+  inverted   Boolean @default(false)
+  conditions Json?   @db.JsonB()
+  reason     String? @db.Text()
+
+  Role Role @relation(fields: [roleId], references: [cuid])
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt()
+
+  @@map("tbl_auth_permissions")
+}
+
+model UserRole {
+  id     Int       @id @default(autoincrement())
+  userId String
+  roleId String
+  expiry DateTime?
+
+  User User @relation(fields: [userId], references: [cuid])
+  Role Role @relation(fields: [roleId], references: [cuid])
+
+  createdAt DateTime @default(now())
+  createdBy Int?
+
+  @@unique([userId, roleId], name: "UserRoleIdentifier")
+  @@map("tbl_users_roles")
+}
+
+model Auth {
+  id            Int       @id @default(autoincrement())
+  userId        String
+  service       Service
+  serviceId     String
+  details       Json?     @db.JsonB()
+  challenge     String?
+  falseAttempts Int       @default(0)
+  isLocked      Boolean   @default(false)
+  lockedOnAt    DateTime?
+  lastLoginAt   DateTime?
+
+  User     User          @relation(fields: [userId], references: [cuid])
+  AuthLogs AuthSession[]
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt()
+  deletedAt DateTime?
+
+  @@unique([service, serviceId], name: "AuthServiceIdentifier")
+  @@map("tbl_auth")
+}
+
+model AuthSession {
+  id        Int     @id @default(autoincrement())
+  clientId  String
+  sessionId String  @unique @default(uuid())
+  authId    Int
+  ip        String?
+  details   Json?   @db.JsonB()
+  userAgent String?
+
+  Auth Auth @relation(fields: [authId], references: [id])
+
+  createdAt DateTime @default(now())
+
+  @@map("tbl_auth_sessions")
+}
+
+enum Service {
+  API
+  EMAIL
+  PHONE
+  WALLET
+  GOOGLE
+  APPLE
+  FACEBOOK
+  TWITTER
+  GITHUB
+  LINKEDIN
+}
+
+// ++++++++++++++++++ END: @rumsan/user - Role/Auth ++++++++++++++++++++++++
+
+// ++++++++++++++++++ START: @rumsan/extensions/settings +++++++++++++++++++++++++++
+
+model Setting {
+  name           String          @id @unique
+  value          Json
+  dataType       SettingDataType
+  requiredFields String[]
+  isReadOnly     Boolean         @default(false)
+  isPrivate      Boolean         @default(true)
+
+  @@map("tbl_settings")
+}
+
+enum SettingDataType {
+  STRING
+  NUMBER
+  BOOLEAN
+  OBJECT
+}
+
+// ++++++++++++++++++ END: @rumsan/extensions/settings +++++++++++++++++++++++++++
+
+enum UserType {
+  EMPLOYEE
+  VOLUNTEER
+  CONTRACTOR
+  INTERN
+}
