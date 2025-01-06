@@ -14,7 +14,11 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@rumsan/virtuperks": ["libs/virtuperks/src/index.ts"],
+      "@rumsan/virtuperks-nest": ["libs/virtuperks-nest/src/index.ts"],
+      "@rumsan/virtuperks-react": ["libs/virtuperks-react/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }

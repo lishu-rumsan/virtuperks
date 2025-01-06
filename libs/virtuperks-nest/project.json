@@ -1,0 +1,33 @@
+{
+  "name": "virtuperks-nest",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/virtuperks-nest/src",
+  "projectType": "library",
+  "release": {
+    "version": {
+      "generatorOptions": {
+        "packageRoot": "dist/{projectRoot}",
+        "currentVersionResolver": "git-tag"
+      }
+    }
+  },
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/virtuperks-nest",
+        "tsConfig": "libs/virtuperks-nest/tsconfig.lib.json",
+        "packageJson": "libs/virtuperks-nest/package.json",
+        "main": "libs/virtuperks-nest/src/index.ts",
+        "assets": ["libs/virtuperks-nest/*.md"]
+      }
+    },
+    "nx-release-publish": {
+      "options": {
+        "packageRoot": "dist/{projectRoot}"
+      }
+    }
+  }
+}
