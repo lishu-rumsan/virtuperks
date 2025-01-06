@@ -63,3 +63,7 @@ docker-compose-*.yaml
 
 docker-compose-files/
 rumsan-finance-app-*.json
+
+# Next.js
+.next
+out

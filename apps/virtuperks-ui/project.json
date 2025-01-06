@@ -1,0 +1,9 @@
+{
+  "name": "virtuperks-ui",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/virtuperks-ui",
+  "projectType": "application",
+  "tags": [],
+  "// targets": "to see all targets run: nx show project virtuperks-ui --web",
+  "targets": {}
+}
