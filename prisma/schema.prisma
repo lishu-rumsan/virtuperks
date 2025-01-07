@@ -223,12 +223,21 @@ enum Status {
   REJECTED
 }
 
+enum TokenDataType {
+  IMPORTED
+  CREATED
+}
+
 model Token {
-  cuid      String   @unique @default(cuid())
-  userType  UserType
-  balance   Decimal  @default(0)
-  allocated Decimal  @default(0)
-  redeemed  Decimal  @default(0)
+  cuid            String        @unique @default(cuid())
+  name            String
+  description     String
+  userType        UserType
+  fromBlock       Int           @unique
+  contractAddress String        @unique
+  transactionHash String?       @unique
+  type            TokenDataType @default(CREATED)
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -246,13 +255,15 @@ model Transaction {
 }
 
 model Task {
-  cuid        String   @unique @default(cuid())
+  cuid        String @unique @default(cuid())
   managerCuid String
   title       String
   description String
-  status      Status   @default(OPEN)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  status      Status @default(OPEN)
+
+  assignments TaskAssignment[]
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
 }
 
 model TaskAssignment {
@@ -260,6 +271,7 @@ model TaskAssignment {
   employeeWallet   String
   status           String
   taskCuid         String
+  Task             Task      @relation(fields: [taskCuid], references: [cuid])
   isCompleted      Boolean
   isVerified       Boolean
   completionTime   DateTime?
@@ -273,6 +285,7 @@ model Product {
   description    String
   category       String
   requiredTokens Decimal
+  orders         Order[]
   availability   Boolean  @default(true)
   createdAt      DateTime @default(now())
 }
@@ -281,6 +294,7 @@ model Order {
   cuid            String          @unique @default(cuid())
   employeeCuid    String
   itemCuid        String
+  product         Product         @relation(fields: [itemCuid], references: [cuid])
   status          String
   transactionType TransactionType
   transactionHash String?
