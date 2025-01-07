@@ -201,3 +201,88 @@ enum UserType {
   CONTRACTOR
   INTERN
 }
+
+enum TransactionType {
+  MINT
+  BURN
+  REWARD
+  TRANSFER
+  REDEEM
+  ALLOCATION
+  CANCELLED
+}
+
+enum Status {
+  OPEN
+  CLOSED
+  VERIFIED
+  APPLIED
+  COMPLETED
+  PENDING
+  ACCEPTED
+  REJECTED
+}
+
+model Token {
+  cuid      String   @unique @default(cuid())
+  userType  UserType
+  balance   Decimal  @default(0)
+  allocated Decimal  @default(0)
+  redeemed  Decimal  @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Transaction {
+  cuid            String          @unique @default(cuid())
+  userCuid        String
+  transactionType TransactionType
+  amount          Decimal
+  status          String
+  TaskCuid        String?
+  metadata        Json
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+}
+
+model Task {
+  cuid        String   @unique @default(cuid())
+  managerCuid String
+  title       String
+  description String
+  status      Status   @default(OPEN)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model TaskAssignment {
+  cuid             String    @unique @default(cuid())
+  employeeWallet   String
+  status           String
+  taskCuid         String
+  isCompleted      Boolean
+  isVerified       Boolean
+  completionTime   DateTime?
+  verificationTime DateTime?
+  createdAt        DateTime  @default(now())
+}
+
+model Product {
+  cuid           String   @unique @default(cuid())
+  itemName       String   @map("item_name")
+  description    String
+  category       String
+  requiredTokens Decimal
+  availability   Boolean  @default(true)
+  createdAt      DateTime @default(now())
+}
+
+model Order {
+  cuid            String          @unique @default(cuid())
+  employeeCuid    String
+  itemCuid        String
+  status          String
+  transactionType TransactionType
+  transactionHash String?
+  createdAt       DateTime        @default(now())
+}
