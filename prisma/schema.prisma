@@ -201,3 +201,69 @@ enum UserType {
   CONTRACTOR
   INTERN
 }
+
+enum TaskStatus {
+  OPEN
+  CLOSED
+}
+
+model Task {
+  cuid        String     @unique @default(cuid())
+  managerCuid String
+  title       String
+  description String
+  status      TaskStatus @default(OPEN)
+
+  assignments TaskAssignment[]
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+  deletedAt   DateTime?
+  createdBy   String?
+  updatedBy   String?
+
+  @@map("tbl_tasks")
+}
+
+model TaskAssignment {
+  cuid      String    @unique @default(cuid())
+  wallet    String
+  taskCuid  String
+  Task      Task      @relation(fields: [taskCuid], references: [cuid])
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+  createdBy String?
+  updatedBy String?
+
+  @@map("tbl_tasks_assignment")
+}
+
+model Product {
+  cuid         String    @unique @default(cuid())
+  itemName     String
+  description  String
+  category     String
+  orders       Order[]
+  availability Boolean   @default(true)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  deletedAt    DateTime?
+  createdBy    String?
+  updatedBy    String?
+
+  @@map("tbl_product")
+}
+
+model Order {
+  cuid         String    @unique @default(cuid())
+  employeeCuid String
+  itemCuid     String
+  product      Product   @relation(fields: [itemCuid], references: [cuid])
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  deletedAt    DateTime?
+  createdBy    String?
+  updatedBy    String?
+
+  @@map("tbl_order")
+}
