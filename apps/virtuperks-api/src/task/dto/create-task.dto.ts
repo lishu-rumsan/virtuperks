@@ -31,18 +31,4 @@ export class CreateTaskDto {
   })
   @IsEnum(TaskStatus)
   status: TaskStatus;
-
-  @ApiProperty({
-    example: '2025-01-08T09:50:59.336Z',
-  })
-  @IsOptional()
-  deletedAt: Date;
-
-  @IsString()
-  @IsOptional()
-  createdBy: string;
-
-  @IsString()
-  @IsOptional()
-  updatedBy: string;
 }
