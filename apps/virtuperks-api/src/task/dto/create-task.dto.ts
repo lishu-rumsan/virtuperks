@@ -22,7 +22,7 @@ export class CreateTaskDto {
     description: 'Description of the task',
     example: 'abc',
   })
-  description;
+  description: string;
 
   @IsString()
   @ApiProperty({
