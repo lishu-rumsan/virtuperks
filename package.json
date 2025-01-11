@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
+    "dev": "chmod +x ./scripts/* && ./scripts/dev.sh",
     "dev:api": "nx run virtuperks-api:serve",
     "dev:ui": "nx run virtuperks-ui:dev",
     "clean": "rm -rf dist node_modules tmp",
@@ -67,5 +68,6 @@
   },
   "nx": {
     "includedScripts": []
-  }
+  },
+  "packageManager": "pnpm@9.15.3+sha512.1f79bc245a66eb0b07c5d4d83131240774642caaa86ef7d0434ab47c0d16f66b04e21e0c086eb61e62c77efc4d7f7ec071afad3796af64892fae66509173893a"
 }
