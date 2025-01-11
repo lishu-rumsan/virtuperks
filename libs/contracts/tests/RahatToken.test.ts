@@ -8,12 +8,12 @@ const getFunctionId = (signature: string) => {
   return hre.ethers.FunctionFragment.from(signature).selector;
 }
 
-describe('------ Rahat Token Tests ------', function () {
+describe('------ Reward Token Tests ------', function () {
 
 
   describe("Deployment", function () {
     let rewardToken
-    let rahatForwarder
+    let rumsanForwarder
     let accessManagerV2
     let deployer
     let manager
@@ -23,7 +23,7 @@ describe('------ Rahat Token Tests ------', function () {
       deployer = fixtures.deployer;
       manager = fixtures.signers[1];
       rewardToken = fixtures.rewardToken;
-      rahatForwarder = fixtures.rahatForwarder;
+      rumsanForwarder = fixtures.rumsanForwarder;
       accessManagerV2 = fixtures.accessManagerV2;
     });
     it("should deploy contracts with expected initial values", async function () {
