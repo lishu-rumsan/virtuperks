@@ -80,3 +80,5 @@ out
 
 # Hardhat Ignition default folder for deployments against a local node
 /libs/contracts/ignition/deployments/*
+
+.npmrc
