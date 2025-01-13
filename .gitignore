@@ -67,3 +67,18 @@ rumsan-finance-app-*.json
 # Next.js
 .next
 out
+
+# Hardhat files
+/libs/contracts/build
+# TypeChain files
+/libs/contracts/typechain
+/libs/contracts/typechain-types
+
+# solidity-coverage files
+/libs/contracts/coverage
+/libs/contracts/coverage.json
+
+# Hardhat Ignition default folder for deployments against a local node
+/libs/contracts/ignition/deployments/*
+
+.npmrc

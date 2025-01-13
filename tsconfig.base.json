@@ -17,7 +17,8 @@
     "paths": {
       "@rumsan/virtuperks": ["libs/virtuperks/src/index.ts"],
       "@rumsan/virtuperks-nest": ["libs/virtuperks-nest/src/index.ts"],
-      "@rumsan/virtuperks-react": ["libs/virtuperks-react/src/index.ts"]
+      "@rumsan/virtuperks-react": ["libs/virtuperks-react/src/index.ts"],
+      "@virtu-perks/contracts": ["contracts/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

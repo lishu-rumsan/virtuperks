@@ -3,12 +3,15 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
+    "dev": "chmod +x ./scripts/* && ./scripts/dev.sh",
     "dev:api": "nx run virtuperks-api:serve",
     "dev:ui": "nx run virtuperks-ui:dev",
     "clean": "rm -rf dist node_modules tmp",
     "seed": "ts-node --compiler-options '{\"module\":\"CommonJS\"}' prisma/seed.migration.ts",
     "prisma:generate": "npx prisma generate",
-    "prisma:migrate": "npx prisma migrate dev"
+    "prisma:migrate": "npx prisma migrate dev",
+    "contracts:compile": "cd ./libs/contracts && hardhat compile",
+    "contracts:test": "cd ./libs/contracts && hardhat test"
   },
   "private": true,
   "dependencies": {
@@ -33,9 +36,11 @@
     "rxjs": "^7.8.0"
   },
   "devDependencies": {
+    "@atixlabs/hardhat-time-n-mine": "^0.0.5",
     "@eslint/js": "^9.8.0",
     "@nestjs/schematics": "^10.0.1",
     "@nestjs/testing": "^10.0.2",
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
     "@nx/eslint": "20.3.0",
     "@nx/eslint-plugin": "20.3.0",
     "@nx/jest": "20.3.0",
@@ -46,6 +51,7 @@
     "@nx/web": "20.3.0",
     "@nx/webpack": "20.3.0",
     "@nx/workspace": "20.3.0",
+    "@openzeppelin/contracts": "^5.0.2",
     "@swc-node/register": "~1.9.1",
     "@swc/core": "~1.5.7",
     "@swc/helpers": "~0.5.11",
@@ -53,14 +59,18 @@
     "@types/node": "~18.16.9",
     "@types/react": "18.3.1",
     "@types/react-dom": "18.3.0",
+    "dotenv": "^16.4.7",
     "eslint": "^9.8.0",
     "eslint-config-prettier": "^9.0.0",
     "google-spreadsheet": "^4.1.4",
+    "hardhat": "^2.22.6",
+    "hardhat-gas-reporter": "^2.1.1",
     "jest": "^29.7.0",
     "jest-environment-node": "^29.7.0",
     "nx": "20.3.0",
     "prettier": "^2.6.2",
     "prisma": "^6.1.0",
+    "solidity-docgen": "0.6.0-beta.36",
     "ts-jest": "^29.1.0",
     "ts-node": "10.9.1",
     "tslib": "^2.3.0",
@@ -71,5 +81,6 @@
   },
   "nx": {
     "includedScripts": []
-  }
+  },
+  "packageManager": "pnpm@9.15.3+sha512.1f79bc245a66eb0b07c5d4d83131240774642caaa86ef7d0434ab47c0d16f66b04e21e0c086eb61e62c77efc4d7f7ec071afad3796af64892fae66509173893a"
 }
