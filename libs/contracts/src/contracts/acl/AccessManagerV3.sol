@@ -3,7 +3,7 @@ pragma solidity 0.8.20;
 
 import '@openzeppelin/contracts/access/manager/AccessManager.sol';
 
-contract AccessManagerV2 is AccessManager {
+contract AccessManagerV3 is AccessManager {
   //ADMIN_ROLE = 0
   //PUBLIC_ROLE = max(uint64)
   //MINTER_ROLE = 1
