@@ -16,12 +16,12 @@ describe('------ Reward Token Tests ------', function () {
     let rumsanForwarder
     let accessManagerV2
     let deployer
-    let manager
+    let minter
     // let provider: EthereumProvider;
     before(async function () {
       const fixtures = await loadFixture(deployRahatTokenFixture);
       deployer = fixtures.deployer;
-      manager = fixtures.signers[1];
+      minter = fixtures.signers[1];
       rewardToken = fixtures.rewardToken;
       rumsanForwarder = fixtures.rumsanForwarder;
       accessManagerV2 = fixtures.accessManagerV2;
@@ -31,41 +31,23 @@ describe('------ Reward Token Tests ------', function () {
       expect(await rewardToken.symbol()).to.equal('RTH');
       expect(await rewardToken.decimals()).to.equal(0n);
       expect(await rewardToken.totalSupply()).to.equal(0n);
-      expect(await rewardToken.authority()).to.equal(accessManagerV2.target);
-
     });
-    it('should set manager', async function () {
-      const functionSignature = rewardToken.interface.getFunction('mint').format();
-      const mintId = getFunctionId(functionSignature);
 
-      //set mint function to require manager role
-      await accessManagerV2.connect(deployer).setTargetFunctionRole(rewardToken.target, [mintId], 1);
+    it("should not be able to mint tokens without role", async function () {
+      await expect(rewardToken.connect(minter).mint(minter.address, 100000n)).to.be.revertedWith('Not a minter');
+    });
 
-      //grant manager role to manager
-      await accessManagerV2.connect(deployer).grantRole(1, manager.address, 0);
-
-      //check if manager has access to mint function
-      const canCall = await accessManagerV2.canCall(manager.address, rewardToken.target, mintId);
-
-      //get target function role
-      const targetFunctionRole = await accessManagerV2.getTargetFunctionRole(rewardToken.target, mintId);
-
-      //get target admin delay
-      const targetAdminDelay = await accessManagerV2.getTargetAdminDelay(rewardToken.target);
-
-      //note: disable any acess if target is closed
-      const isTargetClosed = await accessManagerV2.isTargetClosed(rewardToken.target);
-      console.log({ canCall });
-      console.log({ targetFunctionRole });
-      console.log({ isTargetClosed, targetAdminDelay });
-
+    it('should set minter', async function () {
+      const tokenAppId = hre.ethers.id('TOKEN_APP');
+      const MINTER_ROLE = hre.ethers.id('MINTER')
+      await accessManagerV2.connect(deployer).grantRole(tokenAppId, MINTER_ROLE, minter.address);
+      //check if minter has access to mint function
+      const hasRole = await accessManagerV2.hasRole(tokenAppId, MINTER_ROLE, minter.address);
+      expect(hasRole).to.equal(true);
     })
     it("should mint tokens", async function () {
-      await rewardToken.connect(manager).mint(manager.address, 100000n);
-      //check if target is retricted with access management
-      const isTargetClosedAfter = await accessManagerV2.isTargetClosed(rewardToken.target);
-      console.log({ isTargetClosedAfter })
-      expect(await rewardToken.balanceOf(manager.address)).to.equal(100000n);
+      await rewardToken.connect(minter).mint(minter.address, 100000n);
+      expect(await rewardToken.balanceOf(minter.address)).to.equal(100000n);
     });
 
   });
