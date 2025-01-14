@@ -4,7 +4,7 @@ pragma solidity ^0.8.0;
 import '../interfaces/IAccessManagerV1.sol';
 import '@openzeppelin/contracts/utils/Multicall.sol';
 
-contract AccessManager is IAccessManagerV1, Multicall {
+contract AccessManagerV1 is IAccessManagerV1, Multicall {
   mapping(address => bool) private _admin;
   mapping(address => bool) private _minter;
   mapping(address => bool) private _projectManager;

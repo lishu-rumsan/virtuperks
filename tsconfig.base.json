@@ -10,16 +10,30 @@
     "importHelpers": true,
     "target": "es2015",
     "module": "esnext",
-    "lib": ["es2020", "dom"],
+    "lib": [
+      "es2020",
+      "dom"
+    ],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@rumsan/virtuperks": ["libs/virtuperks/src/index.ts"],
-      "@rumsan/virtuperks-nest": ["libs/virtuperks-nest/src/index.ts"],
-      "@rumsan/virtuperks-react": ["libs/virtuperks-react/src/index.ts"],
-      "@virtu-perks/contracts": ["contracts/src/index.ts"]
+      "@rumsan/virtuperks": [
+        "libs/virtuperks/src/index.ts"
+      ],
+      "@rumsan/virtuperks-nest": [
+        "libs/virtuperks-nest/src/index.ts"
+      ],
+      "@rumsan/virtuperks-react": [
+        "libs/virtuperks-react/src/index.ts"
+      ],
+      "@virtu-perks/contracts": [
+        "libs/contracts/src/index.ts"
+      ]
     }
   },
-  "exclude": ["node_modules", "tmp"]
+  "exclude": [
+    "node_modules",
+    "tmp"
+  ]
 }

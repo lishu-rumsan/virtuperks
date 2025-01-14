@@ -11,7 +11,8 @@
     "prisma:generate": "npx prisma generate",
     "prisma:migrate": "npx prisma migrate dev",
     "contracts:compile": "cd ./libs/contracts && hardhat compile",
-    "contracts:test": "cd ./libs/contracts && hardhat test"
+    "contracts:test": "cd ./libs/contracts && hardhat test",
+    "build": "nx build"
   },
   "private": true,
   "dependencies": {
