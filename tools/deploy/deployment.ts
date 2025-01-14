@@ -1,6 +1,8 @@
 import { randomBytes } from 'crypto';
 import { uuidV4 } from 'ethers';
+import * as dotenv from 'dotenv';
 import { commonLib } from './_common';
+dotenv.config();
 
 interface DeployedContract {
   address: string;
@@ -24,9 +26,6 @@ class SeedProject extends commonLib {
   }
 
   public async deployAccessManagerContract() {
-    const deployerAccount = this.getDeployerWallet();
-
-    console.log('--------Deploying Access Manager Contract---------')
 
     const AccessManager = await this.deployContract('AccessManagerV2', [])
 
@@ -34,8 +33,6 @@ class SeedProject extends commonLib {
         address: AccessManager.contract.target as string,
         startBlock: AccessManager.blockNumber,
       };
-      
-    console.log(AccessManager)
   }
   
 }

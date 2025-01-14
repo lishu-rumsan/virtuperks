@@ -12,8 +12,9 @@
     "prisma:migrate": "npx prisma migrate dev",
     "contracts:compile": "cd ./libs/contracts && hardhat compile",
     "contracts:test": "cd ./libs/contracts && hardhat test",
-    "build": "nx build"
-
+    "build": "nx build",
+    "deployContract": "ts-node tools/deploy/deployment.ts",
+    "startdeploy": "node --loader ts-node/esm --experimental-specifier-resolution=node -r tsconfig-paths/register tools/deploy/deployment.ts"
   },
   "private": true,
   "dependencies": {
@@ -78,6 +79,7 @@
     "tslib": "^2.3.0",
     "typescript": "~5.6.2",
     "typescript-eslint": "^8.13.0",
+    "tsconfig-paths": "^4.2.0",
     "verdaccio": "^5.0.4",
     "webpack-cli": "^5.1.4"
   },

@@ -3,16 +3,13 @@ import * as dotenv from 'dotenv';
 import { ethers, uuidV4 } from 'ethers';
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'fs';
 import { ContractArtifacts, ContractDetails } from '../types/contract';
-dotenv.config({ path: `${__dirname}/.env.setup` });
+dotenv.config();
 
 export class commonLib {
     provider: ethers.JsonRpcProvider;
-    projectUUID: string;
 
     constructor() {
-        console.log('Network:', process.env.NETWORK_PROVIDER)
         this.provider = new ethers.JsonRpcProvider(process.env.NETWORK_PROVIDER);
-        this.projectUUID = process.env.PROJECT_UUID as string;
     }
     static getUUID() {
         return uuidV4(randomBytes(16));
@@ -26,10 +23,11 @@ export class commonLib {
     public async getContractArtifacts(
         contractName: string
     ): Promise<ContractArtifacts> {
-        const contract = await import(`../../contracts/${contractName}.json`);
+        const contract = await import(`../artifacts/${contractName}.json`);
         return contract;
     }
     public async deployContract(contractName: string, args: any[]) {
+        console.log(this.getDeployerWallet())
         const signer = this.getDeployerWallet();
         const { abi, bytecode } = await this.getContractArtifacts(contractName);
         const factory = new ethers.ContractFactory(abi, bytecode, signer);
@@ -38,6 +36,7 @@ export class commonLib {
         await contract.waitForDeployment();
         const txBlock = await contract.deploymentTransaction()?.getBlock();
         this.sleep(2000);
+        console.log(txBlock)
         return {
             blockNumber: txBlock?.number || 1,
             contract: new ethers.Contract(address, abi, this.provider),
