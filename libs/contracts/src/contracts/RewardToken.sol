@@ -14,12 +14,14 @@ contract RewardToken is ERC20, ERC20Burnable, IRewardToken, ERC2771Context {
 
   IAccessManagerV2 public accessManager;
 
+  bytes32 public constant MINTER_ROLE = keccak256('MINTER');
+  bytes32 public appId;
+
   constructor(
+    bytes32 _appId,
     string memory _name,
     string memory _symbol,
     uint8 _decimals,
-    uint256 _initialSupply,
-    address _to,
     address _accessManager,
     address _forwarder
   )
@@ -27,9 +29,9 @@ contract RewardToken is ERC20, ERC20Burnable, IRewardToken, ERC2771Context {
     // AccessManaged(_accessManager)
     ERC2771Context(_forwarder)
   {
+    appId = _appId;
     decimalPoints = _decimals;
     accessManager = IAccessManagerV2(_accessManager);
-    _mint(_to, _initialSupply);
   }
 
   ///@dev returns the decimals of the tokens
@@ -42,7 +44,7 @@ contract RewardToken is ERC20, ERC20Burnable, IRewardToken, ERC2771Context {
   ///@param _amount Amount of token to be minted
   function mint(address _address, uint256 _amount) public returns (uint256) {
     require(
-      accessManager.hasRole(keccak256('MINTER'), _msgSender()),
+      accessManager.hasRole(appId, MINTER_ROLE, _msgSender()),
       'Not a minter'
     );
     _mint(_address, _amount);

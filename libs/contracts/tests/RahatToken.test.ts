@@ -38,10 +38,11 @@ describe('------ Reward Token Tests ------', function () {
     });
 
     it('should set minter', async function () {
+      const tokenAppId = hre.ethers.id('TOKEN_APP');
       const MINTER_ROLE = hre.ethers.id('MINTER')
-      await accessManagerV2.connect(deployer).updateRole(MINTER_ROLE, minter.address, true);
+      await accessManagerV2.connect(deployer).grantRole(tokenAppId, MINTER_ROLE, minter.address);
       //check if minter has access to mint function
-      const hasRole = await accessManagerV2.hasRole(MINTER_ROLE, minter.address);
+      const hasRole = await accessManagerV2.hasRole(tokenAppId, MINTER_ROLE, minter.address);
       expect(hasRole).to.equal(true);
     })
     it("should mint tokens", async function () {
