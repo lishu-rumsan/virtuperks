@@ -12,7 +12,9 @@
     "prisma:migrate": "npx prisma migrate dev",
     "contracts:compile": "cd ./libs/contracts && hardhat compile",
     "contracts:test": "cd ./libs/contracts && hardhat test",
-    "build": "nx build"
+    "build": "nx build",
+    "deployContract": "ts-node tools/deploy/deployment.ts",
+    "startdeploy": "node --loader ts-node/esm --experimental-specifier-resolution=node -r tsconfig-paths/register tools/deploy/deployment.ts"
   },
   "private": true,
   "dependencies": {
@@ -23,12 +25,13 @@
     "@nestjs/swagger": "^8.1.0",
     "@paralleldrive/cuid2": "^2.2.2",
     "@prisma/client": "^6.1.0",
-    "@rumsan/extensions": "^0.1.147",
-    "@rumsan/prisma": "^1.0.140",
-    "@rumsan/sdk": "^0.1.150",
-    "@rumsan/user": "^3.1.148",
+    "@rumsan/extensions": "^0.1.103",
+    "@rumsan/prisma": "^1.0.121",
+    "@rumsan/sdk": "^0.1.102",
+    "@rumsan/user": "^3.1.103",
     "axios": "^1.6.0",
     "class-validator": "^0.14.1",
+    "ethers": "^6.13.5",
     "next": "14.2.16",
     "react": "18.3.1",
     "react-dom": "18.3.1",
@@ -78,6 +81,7 @@
     "tslib": "^2.3.0",
     "typescript": "~5.6.2",
     "typescript-eslint": "^8.13.0",
+    "tsconfig-paths": "^4.2.0",
     "verdaccio": "^5.0.4",
     "webpack-cli": "^5.1.4"
   },
