@@ -2,9 +2,10 @@
   "name": "@virtu-perks/contracts",
   "version": "0.0.1",
   "dependencies": {
-    "tslib": "^2.3.0",
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "@typechain/hardhat": "^9.1.0",
     "hardhat": "^2.22.6",
-    "@nomicfoundation/hardhat-toolbox": "^5.0.0"
+    "tslib": "^2.3.0"
   },
   "type": "commonjs",
   "main": "./src/index.js",

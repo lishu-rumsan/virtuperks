@@ -13,8 +13,7 @@
     "contracts:compile": "cd ./libs/contracts && hardhat compile",
     "contracts:test": "cd ./libs/contracts && hardhat test",
     "build": "nx build",
-    "deployContract": "ts-node tools/deploy/deployment.ts",
-    "startdeploy": "node --loader ts-node/esm --experimental-specifier-resolution=node -r tsconfig-paths/register tools/deploy/deployment.ts"
+    "deployContract": "ts-node tools/deploy/deployment.ts"
   },
   "private": true,
   "dependencies": {
@@ -31,7 +30,7 @@
     "@rumsan/user": "^3.1.103",
     "axios": "^1.6.0",
     "class-validator": "^0.14.1",
-    "ethers": "^6.13.5",
+    "ethers": "6.10.0",
     "next": "14.2.16",
     "react": "18.3.1",
     "react-dom": "18.3.1",

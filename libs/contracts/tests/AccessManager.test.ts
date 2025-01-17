@@ -1,25 +1,23 @@
 import { ethers } from 'hardhat';
 import { expect } from 'chai';
-import { routeModule } from 'next/dist/build/templates/app-page';
-import { boolean } from 'hardhat/internal/core/params/argumentTypes';
 
 describe('AccessManager', function () {
   let AccessManager;
   let accessManager;
+  let owner;
   let newAppOwner;
   let addr1;
   let account;
   let user;
 
-  const appId = ethers.utils.formatBytes32String('app1');
-  const role = ethers.utils.formatBytes32String('admin');
+  const appId = ethers.formatBytes32String('app1');
+  const role = ethers.formatBytes32String('admin');
 
   beforeEach(async function () {
     [owner, newAppOwner, addr1, account, user] = await ethers.getSigners();
 
     AccessManager = await ethers.getContractFactory('AccessManager');
-    accessManager = await AccessManager.deploy();
-    await accessManager.deployed();
+    accessManager = await AccessManager.deploy(owner);
   });
 
   describe('transferOwnership', async () => {
