@@ -26,15 +26,15 @@ class SeedProject extends commonLib {
   }
 
   public async deployCommonContracts(appId: string) {
-    const rumsanForwarder = await this.deployContract('ERC2771Forwarder', [
-      'rumsanForwarder',
-    ]);
+    // const rumsanForwarder = await this.deployContract('ERC2771Forwarder', [
+    //   'rumsanForwarder',
+    // ]);
 
-    this.contracts['rumsanForwarder'] = {
-      address: rumsanForwarder.contract.target as string,
-      startBlock: rumsanForwarder.blockNumber,
-    };
-    console.log('Forwarder deployed', rumsanForwarder.contract.target);
+    // this.contracts['rumsanForwarder'] = {
+    //   address: rumsanForwarder.contract.target as string,
+    //   startBlock: rumsanForwarder.blockNumber,
+    // };
+    // console.log('Forwarder deployed', rumsanForwarder.contract.target);
     const accessManagerV2 = await this.deployContract('AccessManagerV2', []);
     this.contracts['accessManagerV2'] = {
       address: accessManagerV2.contract.target as string,
@@ -42,21 +42,21 @@ class SeedProject extends commonLib {
     };
     console.log('Access Manager deployed', accessManagerV2.contract.target);
 
-    const rewardToken = await this.deployContract('RewardToken', [
-      appId,
-      'Rahat',
-      'RTH',
-      0,
-      accessManagerV2.contract.target,
-      rumsanForwarder.contract.target,
-    ]);
-    this.contracts['rewardToken'] = {
-      address: rewardToken.contract.target as string,
-      startBlock: rewardToken.blockNumber,
-    };
-    console.log('Reward Token deployed', rewardToken.contract.target);
+    // const rewardToken = await this.deployContract('RewardToken', [
+    //   appId,
+    //   'Rahat',
+    //   'RTH',
+    //   0,
+    //   accessManagerV2.contract.target,
+    //   rumsanForwarder.contract.target,
+    // ]);
+    // this.contracts['rewardToken'] = {
+    //   address: rewardToken.contract.target as string,
+    //   startBlock: rewardToken.blockNumber,
+    // };
+    // console.log('Reward Token deployed', rewardToken.contract.target);
 
-    return {rumsanForwarder, accessManagerV2, rewardToken};
+    return {accessManagerV2};
   }
 
   public async deployEntityContract(
